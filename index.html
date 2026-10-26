@@ -1,0 +1,616 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Vice Shirts</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=Archivo+Narrow:wght@500;700&display=swap">
+<style>
+/* Layout: minimal monochrome storefront — black notice bar, centered wordmark, full-bleed hero field, 4-up product grid, quiet info band, slide-in bag */
+:root{
+  --bg:#FFFFFF; --fg:#111111; --muted:#6E6E6E; --line:#E7E7E5; --field:#F2F2EF; --field-2:#E9E9E5;
+  --danger:#B3261E;
+  --sans:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --narrow:"Archivo Narrow", "Arial Narrow", "Helvetica Neue", sans-serif;
+  color-scheme:light;
+}
+/* Light only by design: a white, gallery-like shop on every device */
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.5}
+.wrap{max-width:1440px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;font-weight:800;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.caps{text-transform:uppercase;letter-spacing:.08em;font-size:.74rem;font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+
+/* Notice bar + header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--fg)}
+.notice{background:var(--fg);color:#FFFFFF}
+.notice .wrap{padding-block:9px;text-align:center}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:16px}
+.nav{display:flex;gap:24px}
+.nav a{text-decoration:none}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.mark{font-family:var(--narrow);font-weight:700;font-size:1.5rem;letter-spacing:.32em;text-transform:uppercase;padding-left:.32em;white-space:nowrap}
+.bag-btn{justify-self:end;background:none;border:0;padding:4px 0}
+@media (max-width:720px){.nav{display:none}.bar{grid-template-columns:auto 1fr}.mark{font-size:1.15rem;letter-spacing:.24em;padding-left:0}}
+
+/* Hero */
+.hero{background:var(--field)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:24px;padding-block:56px}
+.hero-text{display:grid;gap:18px;align-content:center}
+.hero h1{font-family:var(--narrow);font-size:clamp(2.8rem,7vw,6.2rem);line-height:.86;letter-spacing:-.01em;text-transform:uppercase}
+.hero p{max-width:38ch;color:#3A3A3A;font-size:1.02rem}
+.shop-link{justify-self:start;text-decoration:none;border-bottom:1.5px solid var(--fg);padding-bottom:3px}
+.hero-art{display:grid;place-items:center}
+.hero-art{display:grid;justify-items:center;gap:10px}
+.hero-slides{position:relative;width:min(100%,460px);aspect-ratio:4/5;max-width:100%}
+.hero-slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease;mix-blend-mode:multiply}
+.hero-slides img.on{opacity:1}
+.hero-dots{display:flex;gap:4px}
+@media (max-width:720px){.hero .wrap{grid-template-columns:1fr;padding-block:32px 24px}.hero-art{order:-1}.hero-slides{width:min(82%,340px)}}
+
+/* Products */
+.shop{padding-block:48px 24px}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.section-head h2{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 16px}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 12px}}
+.card{display:grid;gap:10px;align-content:start}
+.img{aspect-ratio:4/5;max-width:100%;background:var(--field);display:grid;place-items:center;position:relative;transition:background .2s}
+.card:hover .img{background:var(--field-2)}
+.img svg{width:74%;height:auto}
+.flag{z-index:3}
+.card .img{cursor:pointer}
+a.name{text-decoration:none}
+a.name:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* Product page */
+.crumbs{padding-block:18px;color:var(--muted)}
+.crumbs a{color:var(--fg);text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.pdp{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;padding-bottom:64px;align-items:start}
+@media (max-width:820px){.pdp{grid-template-columns:1fr;gap:24px}}
+.pdp-media{display:grid;gap:10px;min-width:0}
+.pdp-main{position:relative;display:block;width:100%;max-width:100%;padding:0;border:0;background:var(--field);aspect-ratio:4/5;cursor:zoom-in;overflow:hidden}
+.pdp-main img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
+.pdp-main svg{width:74%;height:100%;margin:0 auto;display:block}
+.zoom-hint{position:absolute;right:12px;bottom:12px;background:var(--bg);padding:5px 9px}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.thumb{padding:0;border:1px solid transparent;background:var(--field);aspect-ratio:4/5;max-width:100%;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
+.thumb[aria-current="true"]{border-color:var(--fg)}
+.pdp-info{display:grid;gap:12px;position:sticky;top:90px;min-width:0}
+@media (max-width:820px){.pdp-info{position:static}}
+.pdp-name{font-family:var(--narrow);font-size:clamp(2rem,4vw,2.8rem);line-height:1;text-transform:uppercase}
+.pdp-price{font-size:1.15rem}
+.pdp-color{color:var(--muted)}
+.pdp-label{margin-top:8px}
+.pdp-sizes .size{min-width:52px;padding:10px}
+.pdp-add{padding:16px;font-size:.8rem}
+.pdp-desc{color:#3A3A3A;max-width:48ch;margin-top:8px}
+.pdp-list{margin:0;padding-left:18px;color:#3A3A3A;display:grid;gap:4px;font-size:.92rem}
+
+/* Zoom */
+.zoom{position:fixed;inset:0;z-index:40;background:#FFFFFF}
+.zoom-scroll{position:absolute;inset:0;overflow:auto;cursor:zoom-out;overscroll-behavior:contain}
+.zoom-scroll img{display:block;width:1200px;max-width:none;height:auto;margin:0 auto}
+.zoom-x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:44px;height:44px;border:0;background:var(--fg);color:#FFFFFF;font-size:1.5rem;line-height:1;z-index:2}
+.zoom-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:rgba(255,255,255,.92);font-size:1.6rem;line-height:1;z-index:2;box-shadow:0 1px 6px rgba(0,0,0,.15)}
+.zoom-prev{left:calc(12px + env(safe-area-inset-left,0px))}
+.zoom-next{right:calc(12px + env(safe-area-inset-right,0px))}
+.gallery{display:block;overflow:hidden}
+.slides{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.slides::-webkit-scrollbar{display:none}
+.slides img{flex:0 0 100%;scroll-snap-align:start}
+.g-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;padding:0;background:rgba(255,255,255,.9);font-size:1.4rem;line-height:1;opacity:0;transition:opacity .2s;z-index:2}
+.g-prev{left:8px}.g-next{right:8px}
+.gallery:hover .g-nav,.g-nav:focus-visible{opacity:1}
+@media (hover:none){.g-nav{opacity:1}}
+.dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:4px;z-index:2}
+.dot{width:20px;height:20px;border:0;padding:0;background:none;display:grid;place-items:center}
+.dot::before{content:"";width:7px;height:7px;border-radius:50%;background:rgba(17,17,17,.25)}
+.dot[aria-current="true"]::before{background:var(--fg)}
+.img img,.mini img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
+.flag{position:absolute;top:10px;left:10px;background:var(--bg);padding:3px 7px}
+.meta{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.name{font-weight:600;font-size:.92rem;text-transform:uppercase;letter-spacing:.03em}
+.price{font-size:.92rem}
+.color{color:var(--muted);font-size:.85rem;margin-top:-6px}
+.sizes{display:flex;flex-wrap:wrap;gap:4px}
+.size{background:none;border:1px solid var(--line);min-width:38px;padding:6px 6px;font-size:.75rem;font-weight:500}
+.size:hover{border-color:var(--fg)}
+.size[aria-pressed="true"]{background:var(--fg);color:#FFFFFF;border-color:var(--fg)}
+.add{background:var(--fg);color:#FFFFFF;border:0;padding:12px;text-transform:uppercase;letter-spacing:.08em;font-size:.74rem;font-weight:600}
+.add:disabled{background:var(--field-2);color:var(--muted);cursor:not-allowed}
+
+/* Info */
+.info{padding-block:48px 64px}
+.info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;border-top:1px solid var(--line);padding-top:28px}
+@media (max-width:720px){.info-grid{grid-template-columns:1fr;gap:24px}}
+.info h3{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.info p{color:#3A3A3A;max-width:42ch}
+
+footer{background:var(--fg);color:#FFFFFF}
+footer .wrap{padding-block:32px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;align-items:end}
+footer .mark{font-size:1.2rem}
+footer .small{color:#B5B5B5;font-size:.82rem}
+
+/* Bag drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--bg);z-index:21;display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.x{background:none;border:0;font-size:1.5rem;line-height:1;padding:2px 6px}
+.drawer-body{flex:1;overflow-y:auto;padding:18px 20px;display:grid;gap:18px;align-content:start}
+.line{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:start}
+.mini{width:72px;aspect-ratio:4/5;background:var(--field);display:grid;place-items:center}
+.mini svg{width:82%}
+.line .name{font-size:.82rem}
+.line-meta{font-size:.82rem;color:var(--muted)}
+.qty{display:flex;align-items:center;gap:8px;margin-top:8px}
+.qty button{width:26px;height:26px;border:1px solid var(--line);background:none}
+.remove{background:none;border:0;color:var(--muted);font-size:.78rem;text-decoration:underline;padding:0;margin-left:8px}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+.drawer-foot{border-top:1px solid var(--line);padding:18px 20px;display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:.9rem}
+.row.total{font-weight:700;font-size:1rem;padding-top:8px;border-top:1px solid var(--line)}
+.primary{background:var(--fg);color:#FFFFFF;border:0;padding:15px;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;font-weight:600}
+.secondary{background:none;border:1px solid var(--fg);padding:13px;text-transform:uppercase;letter-spacing:.08em;font-size:.74rem;font-weight:600}
+.note{font-size:.8rem;color:var(--muted)}
+form{display:grid;gap:18px}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:10px}
+legend{text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;font-weight:700;margin-bottom:8px}
+label{display:grid;gap:5px;font-size:.82rem}
+input{font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:0;background:var(--bg);color:var(--fg);width:100%;min-width:0}
+input:focus{border-color:var(--fg)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.three{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+@media (max-width:420px){.three{grid-template-columns:1fr 1fr}.three label:first-child{grid-column:1/-1}}
+.ship-opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);padding:12px}
+.ship-opt input{width:auto;margin-top:3px;accent-color:var(--fg)}
+.ship-opt:has(input:checked){border-color:var(--fg)}
+.ship-opt strong{font-size:.86rem}
+.demo{background:var(--field);padding:10px 12px;font-size:.8rem}
+.err{color:var(--danger);font-size:.82rem}
+.done{text-align:center;display:grid;gap:12px;padding:32px 0}
+.done h3{font-family:var(--narrow);font-size:2.2rem;text-transform:uppercase}
+.order-no{justify-self:center;border:1px solid var(--fg);padding:6px 12px;letter-spacing:.08em}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--fg);color:#FFFFFF;padding:11px 18px;z-index:30;font-size:.82rem;letter-spacing:.04em;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:no-preference){.drawer{animation:slide .25s ease-out}@keyframes slide{from{transform:translateX(100%)}}html{scroll-behavior:smooth}}
+</style>
+
+<div class="notice"><div class="wrap caps">Local delivery to your home or hotel · Free shipping over $100</div></div>
+<header>
+  <div class="wrap bar">
+    <nav class="nav caps" aria-label="Main">
+      <a href="#shop">Shop</a>
+      <a href="#delivery">Delivery</a>
+      <a href="#about">About</a>
+    </nav>
+    <a class="mark" href="#" style="text-decoration:none">Vice Shirts</a>
+    <button class="bag-btn caps" id="openCart">Bag (<span id="cartCount" class="num">0</span>)</button>
+  </div>
+</header>
+
+<div id="homeView">
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="caps" id="heroCaption" aria-live="polite">New: Las Olas Martini Tee</div>
+      <h1>Local<br>Delivery<br>Available.</h1>
+      <p>Most souvenir shops sell mass-produced shirts. Ours are made locally, in small batches.</p>
+      <a class="shop-link caps" href="#shop">Shop now</a>
+    </div>
+    <div class="hero-art">
+      <div class="hero-slides">
+        <img class="on" src="las-olas-tee.jpg" alt="Black Las Olas Martini Tee, back print with a martini glass and Fort Lauderdale lettering">
+        <img src="flags-back.jpg" alt="White Signal Flags Tee, back print with crossed nautical flags and Fort Lauderdale lettering">
+        <img src="turtle-back.jpg" alt="White Nesting Season Tee, back print with a hand-drawn sea turtle and Fort Lauderdale lettering">
+        <img src="heron-back.jpg" alt="White New River Heron Tee, back print with a line-drawn heron and Fort Lauderdale lettering">
+        <img src="himmarshee-back.jpg" alt="White Himmarshee St Tee, back print with a green Himmarshee Street sign and Fort Lauderdale lettering">
+        <img src="map-back.jpg" alt="Black Fort Lauderdale Map Tee, back print with a vintage-style map of Fort Lauderdale">
+        <img src="a1a-back.jpg" alt="Black A1A Coastal Highway Tee, back print with a large A1A highway sign">
+      </div>
+      <div class="hero-dots">
+        <button class="dot" data-hs="0" aria-label="Show Las Olas Martini Tee" aria-current="true"></button>
+        <button class="dot" data-hs="1" aria-label="Show Signal Flags Tee" aria-current="false"></button>
+        <button class="dot" data-hs="2" aria-label="Show Nesting Season Tee" aria-current="false"></button>
+        <button class="dot" data-hs="3" aria-label="Show New River Heron Tee" aria-current="false"></button>
+        <button class="dot" data-hs="4" aria-label="Show Himmarshee St Tee" aria-current="false"></button>
+        <button class="dot" data-hs="5" aria-label="Show Fort Lauderdale Map Tee" aria-current="false"></button>
+        <button class="dot" data-hs="6" aria-label="Show A1A Coastal Highway Tee" aria-current="false"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="section-head"><h2>New arrivals</h2><span class="caps" style="color:var(--muted)">Sizes S–2XL</span></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="info">
+  <div class="wrap">
+    <div class="info-grid">
+      <div id="delivery"><h3>Local delivery</h3><p>We deliver right to your home, hotel or vacation rental. Choose it at checkout.</p></div>
+      <div><h3>Shipping</h3><p>We ship anywhere in the U.S., free on orders over $100.</p></div>
+      <div id="about"><h3>About</h3><p>Every shirt is made locally in small batches and checked before it leaves the shop. Never mass-produced.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<main id="productView" class="wrap" hidden></main>
+
+<footer>
+  <div class="wrap">
+    <div class="mark">Vice Shirts</div>
+    <div class="small">hello@viceshirts.example<br>© 2026 Vice Shirts · Made locally</div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Shopping bag">
+  <div class="drawer-head"><span class="caps" id="drawerTitle">Bag</span><button class="x" id="closeCart" aria-label="Close">×</button></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</aside>
+<div class="toast" id="toast" hidden role="status"></div>
+<div class="zoom" id="zoom" hidden role="dialog" aria-label="Zoomed photo">
+  <div class="zoom-scroll" id="zoomScroll"><img id="zoomImg" alt=""></div>
+  <button class="zoom-x" id="zoomClose" aria-label="Close zoom">×</button>
+  <button class="zoom-nav zoom-prev" id="zoomPrev" aria-label="Previous photo">‹</button>
+  <button class="zoom-nav zoom-next" id="zoomNext" aria-label="Next photo">›</button>
+</div>
+
+<script>
+/* ===== Store settings — edit these ===== */
+const STORE = {
+  shippingFlat: 5.00,
+  localDeliveryFee: 3.00,
+  freeShippingOver: 100,
+  taxRate: 0.07,
+  plusSizeUpcharge: 2.00,    // added for 2XL
+  // Paste a Stripe Payment Link or other hosted checkout URL here to take real payments.
+  // While empty, checkout runs in demo mode and no card is charged.
+  checkoutUrl: "",
+  // On Netlify, this serverless function opens Stripe Checkout for the whole bag.
+  // Where it isn't available (like this preview), checkout falls back to the demo form.
+  checkoutEndpoint: "/.netlify/functions/checkout"
+};
+const SIZES = ["S","M","L","XL","2XL"];
+const PRODUCTS = [
+  {id:"lasolas", name:"Las Olas Martini Tee", color:"Black", price:35, tag:"New", desc:"A martini glass full of Las Olas waves on the back, with Fort Lauderdale and Venice of America underneath. Small Las Olas script on the front.", imgs:["las-olas-tee.jpg","las-olas-front.jpg","las-olas-model-back.jpg","las-olas-model-front.jpg"]},
+  {id:"flags", name:"Signal Flags Tee", color:"White", price:35, tag:"New", desc:"Crossed nautical signal flags over classic Fort Lauderdale lettering on the back, with a small version on the front.", imgs:["flags-back.jpg","flags-front.jpg","flags-model-back.jpg","flags-model-front.jpg"]},
+  {id:"turtle", name:"Nesting Season Tee", color:"White", price:35, tag:"New", desc:"A line-drawn sea turtle with Fort Lauderdale and nesting season dates on the back. Small palm and sun badge on the front.", imgs:["turtle-back.jpg","turtle-front.jpg","turtle-model-back.jpg","turtle-model-front.jpg","turtle-model2-back.jpg","turtle-model2-front.jpg"]},
+  {id:"heron", name:"New River Heron Tee", color:"White", price:35, tag:"New", desc:"A line-drawn heron on the New River on the back, with Fort Lauderdale lettering. Small palm and sun badge on the front.", imgs:["heron-back.jpg","heron-front.jpg","heron-model-back.jpg","heron-model-front.jpg","heron-model2-back.jpg","heron-model2-front.jpg"]},
+  {id:"himmarshee", name:"Himmarshee St Tee", color:"White", price:35, tag:"New", desc:"A Himmarshee Street sign with the leftovers from last night on the back, over Fort Lauderdale lettering. Small Fort Lauderdale lettering on the front. Relaxed, oversized fit.", imgs:["himmarshee-back.jpg","himmarshee-front.jpg","himmarshee-model-back.jpg","himmarshee-model-front.jpg"]},
+  {id:"map", name:"Fort Lauderdale Map Tee", color:"Black", price:35, tag:"New", desc:"A vintage-style map of Fort Lauderdale, from the canals to the beach, under retro Fort Lauderdale lettering on the back. Small Fort Lauderdale script on the front.", imgs:["map-back.jpg","map-front.jpg","map-model-back.jpg","map-model-front.jpg","map-model2-back.jpg","map-model2-front.jpg"]},
+  {id:"a1a", name:"A1A Coastal Highway Tee", color:"Black", price:35, tag:"New", desc:"A big A1A highway sign on the back with Florida's Coastal Highway underneath. Small A1A sign on the front.", imgs:["a1a-back.jpg","a1a-front.jpg","a1a-model-back.jpg","a1a-model-front.jpg","a1a-model2-back.jpg","a1a-model2-front.jpg"]},
+];
+
+const money = n => "$" + n.toFixed(2);
+const unitPrice = (p,size) => p.price + (size==="2XL" ? STORE.plusSizeUpcharge : 0);
+
+function tee(p){
+  const src = p.imgs ? p.imgs[0] : p.img;
+  if (src) return `<img src="${src}" alt="${p.name}" loading="lazy">`;
+  const art = {
+    sun:`<circle cx="60" cy="60" r="11" fill="none" stroke="${p.ink1}" stroke-width="1.4"/><rect x="42" y="64" width="36" height="1.4" fill="${p.ink1}"/><rect x="46" y="68" width="28" height="1.4" fill="${p.ink1}"/><rect x="50" y="72" width="20" height="1.4" fill="${p.ink1}"/>`,
+    flamingo:`<ellipse cx="64" cy="62" rx="9" ry="5.5" fill="none" stroke="${p.ink1}" stroke-width="1.4"/><path d="M57 60C50 54 51 44 57 45" stroke="${p.ink1}" stroke-width="1.4" fill="none"/><circle cx="57.5" cy="44.5" r="2.4" fill="${p.ink1}"/><path d="M63 67v14M66 67l3 7h-4" stroke="${p.ink1}" stroke-width="1.2" fill="none"/>`,
+    orange:`<circle cx="60" cy="64" r="10" fill="none" stroke="${p.ink1}" stroke-width="1.4"/><path d="M60 54c2-6 8-7 11-5-3 4-7 5-11 5z" fill="${p.ink1}"/>`,
+    palm:`<path d="M54 80c1-10 3-18 1-26" stroke="${p.ink1}" stroke-width="1.4" fill="none"/><path d="M55 54c-7-4-13-1-14 1 6-2 10-1 14-1zm0 0c6-6 11-4 13-1-4-2-9 0-13 1zm0 0c-3-6-9-7-11-6 4 0 9 3 11 6z" fill="${p.ink1}"/><path d="M68 80c0-7 1-13 0-18" stroke="${p.ink1}" stroke-width="1.4" fill="none"/><path d="M68 62c4-4 9-3 10-1-3-1-6 0-10 1zm0 0c-5-3-9-1-10 1 3-2 6-1 10-1z" fill="${p.ink1}"/>`,
+    est:`<text x="60" y="62" text-anchor="middle" font-family="Archivo Narrow, Arial Narrow, sans-serif" font-weight="700" font-size="8" letter-spacing="1.6" fill="${p.ink1}">LOCAL</text><text x="60" y="71" text-anchor="middle" font-family="Archivo Narrow, Arial Narrow, sans-serif" font-weight="700" font-size="8" letter-spacing="1.6" fill="${p.ink1}">ONLY</text>`
+  }[p.art];
+  return `<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M40 14l-28 14 10 22 10-5v65h56V45l10 5 10-22-28-14c-3 8-10 12-20 12s-17-4-20-12z" fill="${p.shirt}" stroke="#111111" stroke-opacity=".14" stroke-width=".8"/>${art}</svg>`;
+}
+
+/* ===== Bag (remembered in this browser only) ===== */
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem("vs-cart")) || []; } catch(e){ cart = []; }
+cart = cart.filter(l => PRODUCTS.some(p => p.id === l.id) && SIZES.includes(l.size));
+const save = () => { try { localStorage.setItem("vs-cart", JSON.stringify(cart)); } catch(e){} };
+const picked = {};
+let view = "cart";
+
+function renderGrid(){
+  document.getElementById("grid").innerHTML = PRODUCTS.map(p => `
+    <article class="card" data-id="${p.id}">
+      ${gallery(p)}
+      <div class="meta"><a class="name" href="#${p.id}">${p.name}</a><span class="price num">${money(p.price)}</span></div>
+      <div class="color">${p.color}</div>
+      <div class="sizes" role="group" aria-label="Size for ${p.name}">
+        ${SIZES.map(s => `<button class="size" data-p="${p.id}" data-s="${s}" aria-pressed="${picked[p.id]===s}">${s}</button>`).join("")}
+      </div>
+      <button class="add" data-add="${p.id}" ${picked[p.id] ? "" : "disabled"}>${picked[p.id] ? `Add to bag${unitPrice(p,picked[p.id])>p.price ? ` · ${money(unitPrice(p,picked[p.id]))}` : ""}` : "Select a size"}</button>
+    </article>`).join("");
+  document.querySelectorAll(".slides").forEach(el => {
+    const id = el.dataset.g;
+    el.scrollLeft = (gIdx[id]||0) * el.clientWidth;
+    el.addEventListener("scroll", () => {
+      const i = Math.round(el.scrollLeft / el.clientWidth);
+      if (i !== (gIdx[id]||0)){ gIdx[id] = i; el.parentElement.querySelectorAll(".dot").forEach((d,k) => d.setAttribute("aria-current", k===i)); }
+    }, {passive:true});
+  });
+}
+
+/* ===== Photo galleries ===== */
+const VIEWS = ["back","front","on model, back","on model, front","on second model, back","on second model, front"];
+const gIdx = {};
+function gallery(p){
+  const flag = p.tag ? `<span class="flag caps">${p.tag}</span>` : "";
+  if (!p.imgs) return `<div class="img">${flag}${tee(p)}</div>`;
+  return `<div class="img gallery">${flag}
+    <div class="slides" data-g="${p.id}" tabindex="0" aria-label="${p.name} photos, swipe to see more">${p.imgs.map((s,i) => `<img src="${s}" alt="${p.name}, ${VIEWS[i] || "photo " + (i+1)}" loading="lazy">`).join("")}</div>
+    <button class="g-nav g-prev" data-gp="${p.id}" aria-label="Previous photo">‹</button>
+    <button class="g-nav g-next" data-gn="${p.id}" aria-label="Next photo">›</button>
+    <div class="dots">${p.imgs.map((_,i) => `<button class="dot" data-gd="${p.id}" data-i="${i}" aria-label="Photo ${i+1}" aria-current="${(gIdx[p.id]||0)===i}"></button>`).join("")}</div>
+  </div>`;
+}
+/* ===== Product pages ===== */
+let currentP = null;
+const pIdx = {};
+function renderProduct(p){
+  const imgs = p.imgs || null, i = pIdx[p.id] || 0, sel = picked[p.id];
+  document.getElementById("productView").innerHTML = `
+    <nav class="crumbs caps" aria-label="Breadcrumb"><a href="#shop">Shop</a> / <span>${p.name}</span></nav>
+    <div class="pdp">
+      <div class="pdp-media">
+        <button class="pdp-main" id="pdpMain" aria-label="${imgs ? "Zoom in on this photo" : p.name}">${imgs ? `<img src="${imgs[i]}" alt="${p.name}, ${VIEWS[i]}">` : tee(p)}${imgs ? `<span class="zoom-hint caps">Click to zoom</span>` : ""}</button>
+        ${imgs ? `<div class="thumbs">${imgs.map((s,k) => `<button class="thumb" data-pt="${k}" aria-label="Show ${VIEWS[k]}" aria-current="${k===i}"><img src="${s}" alt=""></button>`).join("")}</div>` : ""}
+      </div>
+      <div class="pdp-info">
+        ${p.tag ? `<span class="caps">${p.tag}</span>` : ""}
+        <h1 class="pdp-name">${p.name}</h1>
+        <div class="pdp-price num">${money(sel ? unitPrice(p,sel) : p.price)}</div>
+        <div class="pdp-color">Color: ${p.color}</div>
+        <div class="caps pdp-label">Size</div>
+        <div class="sizes pdp-sizes" role="group" aria-label="Size">${SIZES.map(s => `<button class="size" data-p="${p.id}" data-s="${s}" aria-pressed="${sel===s}">${s}</button>`).join("")}</div>
+        <p class="note">2XL adds ${money(STORE.plusSizeUpcharge)}.</p>
+        <button class="add pdp-add" data-add="${p.id}" ${sel ? "" : "disabled"}>${sel ? "Add to bag" : "Select a size"}</button>
+        <p class="pdp-desc">${p.desc || "A Vice Shirts original, made locally in small batches."}</p>
+        <ul class="pdp-list">
+          <li>Made locally in small batches</li>
+          <li>Local delivery to your home or hotel</li>
+          <li>Free U.S. shipping over $${STORE.freeShippingOver}</li>
+        </ul>
+      </div>
+    </div>`;
+}
+async function startCheckout(btn){
+  btn.disabled = true; btn.textContent = "Opening secure checkout…";
+  try {
+    const r = await fetch(STORE.checkoutEndpoint, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({items: cart.map(l => ({id:l.id, size:l.size, qty:l.qty}))})});
+    const isJson = (r.headers.get("content-type") || "").includes("json");
+    if (!isJson) return renderCheckout();
+    const d = await r.json();
+    if (r.ok && d.url){ location.href = d.url; return; }
+    toast(d.error || "Checkout isn't available right now. Please try again.");
+  } catch(e){ return renderCheckout(); }
+  btn.disabled = false; btn.textContent = "Checkout";
+}
+function openThanks(){
+  cart = []; save(); view = "done"; renderCart();
+  document.getElementById("drawerTitle").textContent = "Order placed";
+  document.getElementById("drawerBody").innerHTML = `<div class="done"><h3>Thank you.</h3><p>Your order is in. Your receipt is on its way to your email, and we'll be in touch about delivery.</p></div>`;
+  document.getElementById("drawerFoot").innerHTML = `<button class="primary" data-close>Continue shopping</button>`;
+  document.getElementById("scrim").hidden = false; document.getElementById("drawer").hidden = false;
+}
+function route(){
+  if (location.hash === "#thanks"){
+    currentP = null; document.getElementById("homeView").hidden = false; document.getElementById("productView").hidden = true;
+    renderGrid(); openThanks(); return;
+  }
+  const id = location.hash.slice(1), p = PRODUCTS.find(x => x.id===id);
+  currentP = p || null;
+  document.getElementById("homeView").hidden = !!p;
+  document.getElementById("productView").hidden = !p;
+  if (p){ renderProduct(p); document.title = p.name + " · Vice Shirts"; window.scrollTo(0,0); }
+  else { document.title = "Vice Shirts"; renderGrid(); const t = id && document.getElementById(id); if (t) t.scrollIntoView(); else if (!id) window.scrollTo(0,0); }
+}
+window.addEventListener("hashchange", route);
+
+/* ===== Zoom ===== */
+let zIdx = 0;
+function openZoom(i, e){
+  const p = currentP; if (!p || !p.imgs) return;
+  zIdx = i;
+  const r = document.getElementById("pdpMain").getBoundingClientRect();
+  const fx = e.detail ? (e.clientX - r.left) / r.width : .5, fy = e.detail ? (e.clientY - r.top) / r.height : .5;
+  const z = document.getElementById("zoom"), sc = document.getElementById("zoomScroll"), im = document.getElementById("zoomImg");
+  im.src = p.imgs[i]; im.alt = `${p.name}, ${VIEWS[i]}, zoomed in`;
+  z.hidden = false; document.body.style.overflow = "hidden";
+  const center = () => { sc.scrollLeft = fx * sc.scrollWidth - sc.clientWidth / 2; sc.scrollTop = fy * sc.scrollHeight - sc.clientHeight / 2; };
+  if (im.complete) center(); else im.onload = center;
+  document.getElementById("zoomClose").focus();
+}
+function stepZoom(d){
+  const p = currentP; zIdx = (zIdx + d + p.imgs.length) % p.imgs.length;
+  const im = document.getElementById("zoomImg"); im.src = p.imgs[zIdx]; im.alt = `${p.name}, ${VIEWS[zIdx]}, zoomed in`;
+}
+function closeZoom(){
+  document.getElementById("zoom").hidden = true; document.body.style.overflow = "";
+  if (currentP){ pIdx[currentP.id] = zIdx; renderProduct(currentP); document.getElementById("pdpMain").focus(); }
+}
+document.getElementById("zoomScroll").addEventListener("mousemove", ev => {
+  const sc = ev.currentTarget;
+  sc.scrollLeft = (ev.clientX / sc.clientWidth) * (sc.scrollWidth - sc.clientWidth);
+  sc.scrollTop = (ev.clientY / sc.clientHeight) * (sc.scrollHeight - sc.clientHeight);
+});
+
+function goTo(id, i){
+  const p = PRODUCTS.find(x => x.id===id), el = document.querySelector(`.slides[data-g="${id}"]`);
+  if (!p || !el) return;
+  const n = p.imgs.length; i = (i + n) % n;
+  el.scrollTo({left: i * el.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+}
+
+function totals(mode){
+  const sub = cart.reduce((t,l) => t + l.price*l.qty, 0);
+  const ship = mode==="pickup" || sub===0 || sub>=STORE.freeShippingOver ? 0 : (mode==="local" ? STORE.localDeliveryFee : STORE.shippingFlat);
+  const tax = Math.round(sub*STORE.taxRate*100)/100;
+  return {sub, ship, tax, total: sub+ship+tax};
+}
+
+function renderCart(){
+  document.getElementById("cartCount").textContent = cart.reduce((t,l)=>t+l.qty,0);
+  if (view !== "cart") return;
+  document.getElementById("drawerTitle").textContent = "Bag";
+  const body = document.getElementById("drawerBody"), foot = document.getElementById("drawerFoot");
+  if (!cart.length){
+    body.innerHTML = `<p class="empty">Your bag is empty.</p>`;
+    foot.innerHTML = `<button class="secondary" data-close>Continue shopping</button>`;
+    return;
+  }
+  body.innerHTML = cart.map((l,i) => { const p = PRODUCTS.find(x=>x.id===l.id); return `
+    <div class="line">
+      <div class="mini">${tee(p)}</div>
+      <div>
+        <p class="name">${p.name}</p>
+        <p class="line-meta">${p.color} · ${l.size}</p>
+        <div class="qty"><button data-dec="${i}" aria-label="Decrease">−</button><span class="num">${l.qty}</span><button data-inc="${i}" aria-label="Increase">+</button><button class="remove" data-rm="${i}">Remove</button></div>
+      </div>
+      <span class="num">${money(l.price*l.qty)}</span>
+    </div>`; }).join("");
+  const t = totals("ship"), left = STORE.freeShippingOver - t.sub;
+  foot.innerHTML = `
+    <div class="row"><span>Subtotal</span><span class="num">${money(t.sub)}</span></div>
+    <p class="note">${left>0 ? `${money(left)} away from free shipping.` : "Free shipping unlocked."} Delivery and tax are set at checkout.</p>
+    <button class="primary" id="toCheckout">Checkout</button>`;
+}
+
+function renderCheckout(){
+  view = "checkout";
+  document.getElementById("drawerTitle").textContent = "Checkout";
+  const body = document.getElementById("drawerBody"), foot = document.getElementById("drawerFoot");
+  const demo = !STORE.checkoutUrl;
+  body.innerHTML = `
+    <form id="coForm" novalidate>
+      ${demo ? `<p class="demo"><strong>Demo checkout.</strong> No card will be charged. Connect a payment link in the store settings to take real orders.</p>` : ""}
+      <fieldset><legend>Contact</legend>
+        <label>Full name<input id="f-name" required autocomplete="name"></label>
+        <label>Email<input id="f-email" type="email" required autocomplete="email"></label>
+      </fieldset>
+      <fieldset><legend>Delivery</legend>
+        <label class="ship-opt"><input type="radio" name="ship" id="f-local" value="local" checked><span><strong>Local delivery</strong><br><span class="note">${money(STORE.localDeliveryFee)}, free over $${STORE.freeShippingOver}. To your home or hotel.</span></span></label>
+        <label class="ship-opt"><input type="radio" name="ship" id="f-ship" value="ship"><span><strong>Shipping</strong><br><span class="note">${money(STORE.shippingFlat)}, free over $${STORE.freeShippingOver}. Anywhere in the U.S.</span></span></label>
+      </fieldset>
+      <fieldset id="addr"><legend>Address</legend>
+        <label id="hotelRow">Hotel and room (optional)<input id="f-hotel" autocomplete="organization"></label>
+        <label>Street address<input id="f-street" required autocomplete="street-address"></label>
+        <div class="three">
+          <label>City<input id="f-city" required autocomplete="address-level2"></label>
+          <label>State<input id="f-state" required maxlength="2" autocomplete="address-level1"></label>
+          <label>ZIP<input id="f-zip" required inputmode="numeric" pattern="[0-9]{5}" autocomplete="postal-code"></label>
+        </div>
+      </fieldset>
+      ${demo ? `<fieldset><legend>Payment (demo)</legend>
+        <label>Card number<input id="f-card" inputmode="numeric" required pattern="[0-9 ]{12,23}" placeholder="4242 4242 4242 4242"></label>
+        <div class="two"><label>Expiry<input id="f-exp" required pattern="[0-9]{2}/[0-9]{2}" placeholder="MM/YY"></label><label>CVC<input id="f-cvc" required inputmode="numeric" pattern="[0-9]{3,4}" placeholder="123"></label></div>
+      </fieldset>` : ""}
+      <p class="err" id="err" hidden></p>
+    </form>`;
+  const mode = () => body.querySelector('input[name="ship"]:checked').value;
+  const update = () => {
+    const m = mode();
+    document.getElementById("addr").hidden = m==="pickup";
+    document.getElementById("hotelRow").hidden = m!=="local";
+    const t = totals(m);
+    foot.innerHTML = `
+      <div class="row"><span>Subtotal</span><span class="num">${money(t.sub)}</span></div>
+      <div class="row"><span>${m==="pickup" ? "Pickup" : m==="local" ? "Local delivery" : "Shipping"}</span><span class="num">${t.ship ? money(t.ship) : "Free"}</span></div>
+      <div class="row"><span>Tax</span><span class="num">${money(t.tax)}</span></div>
+      <div class="row total"><span>Total</span><span class="num">${money(t.total)}</span></div>
+      <button class="primary" type="submit" form="coForm">${demo ? "Place order" : "Continue to payment"} · ${money(t.total)}</button>
+      <button class="secondary" id="backCart">Back to bag</button>`;
+  };
+  body.querySelectorAll('input[name="ship"]').forEach(r => r.addEventListener("change", update));
+  update();
+  document.getElementById("coForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const m = mode();
+    const fields = [...e.target.querySelectorAll("input[required]")].filter(i => !(m==="pickup" && i.closest("#addr")));
+    const bad = fields.find(i => !i.value.trim() || !i.checkValidity());
+    const err = document.getElementById("err");
+    if (bad){ err.textContent = `Check "${bad.closest("label").firstChild.textContent.trim()}". It's missing or not in the right format.`; err.hidden = false; bad.focus(); return; }
+    if (!demo){ window.location.href = STORE.checkoutUrl; return; }
+    const t = totals(m), name = document.getElementById("f-name").value.trim().split(" ")[0].replace(/[<>&"]/g,"");
+    const num = "VS-" + Math.floor(100000 + Math.random()*900000);
+    view = "done"; cart = []; save(); renderCart();
+    document.getElementById("drawerTitle").textContent = "Order placed";
+    body.innerHTML = `<div class="done"><h3>Thank you, ${name}.</h3>
+      <span class="order-no caps">${num}</span>
+      <p>Your total was <strong class="num">${money(t.total)}</strong>. ${m==="pickup" ? "We'll email you when it's ready to pick up." : m==="local" ? "We'll email you when it's on the way." : "We'll email tracking once it ships."}</p>
+      <p class="note">Demo order. No card was charged.</p></div>`;
+    foot.innerHTML = `<button class="primary" data-close>Continue shopping</button>`;
+  });
+}
+
+function openDrawer(){ view="cart"; renderCart(); document.getElementById("scrim").hidden=false; document.getElementById("drawer").hidden=false; document.getElementById("closeCart").focus(); }
+function closeDrawer(){ document.getElementById("scrim").hidden=true; document.getElementById("drawer").hidden=true; view="cart"; }
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast.h); toast.h=setTimeout(()=>t.hidden=true,2200); }
+
+document.addEventListener("click", e => {
+  if (e.target.id==="scrim") return closeDrawer();
+  if (e.target.id==="zoomImg") return closeZoom();
+  const tile = e.target.closest(".card .img");
+  if (tile && !e.target.closest("button")){ location.hash = tile.closest(".card").dataset.id; return; }
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.id==="closeCart" || b.hasAttribute("data-close")) return closeDrawer();
+  if (b.id==="openCart") return openDrawer();
+  if (b.id==="pdpMain") return openZoom(pIdx[currentP.id] || 0, e);
+  if (b.dataset.pt){ pIdx[currentP.id] = +b.dataset.pt; return renderProduct(currentP); }
+  if (b.id==="zoomClose") return closeZoom();
+  if (b.id==="zoomPrev") return stepZoom(-1);
+  if (b.id==="zoomNext") return stepZoom(1);
+  if (b.dataset.hs) return showHero(+b.dataset.hs, true);
+  if (b.dataset.gp) return goTo(b.dataset.gp, (gIdx[b.dataset.gp]||0) - 1);
+  if (b.dataset.gn) return goTo(b.dataset.gn, (gIdx[b.dataset.gn]||0) + 1);
+  if (b.dataset.gd) return goTo(b.dataset.gd, +b.dataset.i);
+  if (b.dataset.s){ picked[b.dataset.p]=b.dataset.s; renderGrid(); if (currentP){ renderProduct(currentP); document.querySelector("#productView [data-add]").focus(); } else document.querySelector(`#grid [data-add="${b.dataset.p}"]`).focus(); return; }
+  if (b.dataset.add){
+    const p = PRODUCTS.find(x=>x.id===b.dataset.add), size = picked[p.id];
+    const ex = cart.find(l=>l.id===p.id && l.size===size);
+    ex ? ex.qty++ : cart.push({id:p.id,size,qty:1,price:unitPrice(p,size)});
+    save(); renderCart(); toast(`Added to bag: ${p.name}, ${size}`); return;
+  }
+  if (b.dataset.inc){ cart[+b.dataset.inc].qty++; save(); renderCart(); return; }
+  if (b.dataset.dec){ const l=cart[+b.dataset.dec]; l.qty>1 ? l.qty-- : cart.splice(+b.dataset.dec,1); save(); renderCart(); return; }
+  if (b.dataset.rm){ cart.splice(+b.dataset.rm,1); save(); renderCart(); return; }
+  if (b.id==="toCheckout") return startCheckout(b);
+  if (b.id==="backCart"){ view="cart"; renderCart(); }
+});
+document.addEventListener("keydown", e => {
+  const zoomOpen = !document.getElementById("zoom").hidden;
+  if (zoomOpen){ if (e.key==="Escape") closeZoom(); else if (e.key==="ArrowLeft") stepZoom(-1); else if (e.key==="ArrowRight") stepZoom(1); return; }
+  if (e.key==="Escape" && !document.getElementById("drawer").hidden) closeDrawer();
+});
+
+/* ===== Hero slideshow ===== */
+const HERO = ["New: Las Olas Martini Tee", "New: Signal Flags Tee", "New: Nesting Season Tee", "New: New River Heron Tee", "New: Himmarshee St Tee", "New: Fort Lauderdale Map Tee", "New: A1A Coastal Highway Tee"];
+let heroIdx = 0, heroTimer = null;
+function showHero(i, manual){
+  heroIdx = (i + HERO.length) % HERO.length;
+  document.querySelectorAll(".hero-slides img").forEach((im,k) => im.classList.toggle("on", k===heroIdx));
+  document.querySelectorAll(".hero-dots .dot").forEach((d,k) => d.setAttribute("aria-current", k===heroIdx));
+  document.getElementById("heroCaption").textContent = HERO[heroIdx];
+  if (manual) startHero();
+}
+function startHero(){
+  clearInterval(heroTimer);
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  heroTimer = setInterval(() => showHero(heroIdx + 1), 5000);
+}
+startHero();
+
+renderGrid(); renderCart(); route();
+</script>
+
+</body></html>
