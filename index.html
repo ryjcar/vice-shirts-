@@ -14,7 +14,7 @@ html,body{margin:0}
 img{max-width:100%}
 /* Layout: minimal monochrome storefront — black notice bar, centered wordmark, full-bleed hero field, 4-up product grid, quiet info band, slide-in bag */
 :root{
-  --bg:#FFFFFF; --fg:#111111; --muted:#6E6E6E; --line:#E7E7E5; --field:#F2F2EF; --field-2:#E9E9E5;
+  --bg:#F6F1E6; --fg:#111111; --muted:#5C564B; --line:#E3DACA; --field:#EDE5D4; --field-2:#E4DAC6;
   --danger:#B3261E;
   --sans:"Archivo", "Helvetica Neue", Arial, sans-serif;
   --narrow:"Archivo Narrow", "Arial Narrow", "Helvetica Neue", sans-serif;
@@ -105,7 +105,7 @@ a.name:hover{text-decoration:underline;text-underline-offset:3px}
 .pdp-list{margin:0;padding-left:18px;color:#3A3A3A;display:grid;gap:4px;font-size:.92rem}
 
 /* Zoom */
-.zoom{position:fixed;inset:0;z-index:40;background:#FFFFFF}
+.zoom{position:fixed;inset:0;z-index:40;background:var(--bg)}
 .zoom-scroll{position:absolute;inset:0;overflow:auto;cursor:zoom-out;overscroll-behavior:contain}
 .zoom-scroll img{display:block;width:1200px;max-width:none;height:auto;margin:0 auto}
 .zoom-x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:44px;height:44px;border:0;background:var(--fg);color:#FFFFFF;font-size:1.5rem;line-height:1;z-index:2}
